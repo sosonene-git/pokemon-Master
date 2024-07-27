@@ -1,23 +1,8 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useState } from "react";
-
+import { pokemonNameMapping } from "@/data/pokemonNameMap";
 const inter = Inter({ subsets: ["latin"] });
-
-// 日本語名から英語名へのマッピングの型定義
-type PokemonNameMapping = {
-  [key: string]: string;
-};
-
-// 日本語名から英語名へのマッピング
-const pokemonNameMapping: PokemonNameMapping = {
-  ピカチュウ: "pikachu",
-  リザードン: "charizard",
-  フシギダネ: "bulbasaur",
-  ゼニガメ: "squirtle",
-  イーブイ: "eevee",
-  // 他のポケモンも追加...
-};
 
 export default function Home() {
   const [pokemonName, setPokemonName] = useState("");
