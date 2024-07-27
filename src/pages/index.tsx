@@ -4,6 +4,21 @@ import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// 日本語名から英語名へのマッピングの型定義
+type PokemonNameMapping = {
+  [key: string]: string;
+};
+
+// 日本語名から英語名へのマッピング
+const pokemonNameMapping: PokemonNameMapping = {
+  ピカチュウ: "pikachu",
+  リザードン: "charizard",
+  フシギダネ: "bulbasaur",
+  ゼニガメ: "squirtle",
+  イーブイ: "eevee",
+  // 他のポケモンも追加...
+};
+
 export default function Home() {
   const [pokemonName, setPokemonName] = useState("");
   const [pokemonImage, setPokemonImage] = useState("");
@@ -13,8 +28,12 @@ export default function Home() {
     if (!pokemonName) return;
 
     try {
+      // 日本語名を英語名に変換（マッピングにない場合はそのまま使用）
+      const englishName =
+        pokemonNameMapping[pokemonName] || pokemonName.toLowerCase();
+
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`
+        `https://pokeapi.co/api/v2/pokemon/${englishName}`
       );
       if (!response.ok) {
         throw new Error("ポケモンが見つかりません");
@@ -36,11 +55,11 @@ export default function Home() {
           ポケモンをゲットする
         </h2>
       </div>
-      <div className="flex space-x-4 mb-4">
+      <div className="flex flex-col items-center space-y-4 w-full max-w-md">
         <input
           type="text"
-          className="input-form px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="ポケモン名を入力"
+          className="input-form px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+          placeholder="ポケモン名を入力（日本語可）"
           value={pokemonName}
           onChange={(e) => setPokemonName(e.target.value)}
         />
